@@ -1,4 +1,5 @@
- 
+package ics3ui;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JComponent;
@@ -12,10 +13,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
+
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
+
 import java.io.IOException;
  
 /**
@@ -45,6 +46,7 @@ public class ICS3UI extends JComponent {
     //creating the player
     Rectangle player = new Rectangle (175, 550, 30, 30);
     
+    
     // the frame (For pixels)
     int frameCount = 0;
     
@@ -63,26 +65,26 @@ public class ICS3UI extends JComponent {
      
     
     // importing the  images 
-    BufferedImage bomb = loadImage("rectangle2.png");
-    BufferedImage Background = loadImage("backimage.png");
-    BufferedImage coin = loadImage ("diamond.png");
-    BufferedImage gameOver = loadImage("gameover.png");
+    BufferedImage bomb = loadImage("images/avoid.png");
+    BufferedImage Background = loadImage("images/wall.png");
+    BufferedImage coin =loadImage("images/money.png");
     
-    //create a method for loading the images
-    public BufferedImage loadImage(String filename) {
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File(filename));
-        } catch (Exception e) {
-            System.out.println("Error loading " + filename);
-        }
-        return img;
-    }
+    
+//    //create a method for loading the images
+//    public BufferedImage loadImage(String filename) {
+//        BufferedImage img = null;
+//        try {
+//            img = ImageIO.read(new File(filename));
+//        } catch (Exception e) {
+//            System.out.println("Error loading " + filename);
+//        }
+//        return img;
+//    }
 
    
  
     // YOUR GAME VARIABLES WOULD GO HERE
-    //creating an arraylist for my blocks or rectangles that my squid needs to avoid
+    
        
     
  
@@ -167,27 +169,30 @@ public class ICS3UI extends JComponent {
  
         // GAME DRAWING GOES HERE
           
-           // drawing the bomb on the side of the screen
-            g.drawImage(bomb,0, 0, 100, 80, null);
+//           // drawing the bomb on the side of the screen
+////           
+//            g.drawImage(bomb, 0, 0, 100, 80, null);
+//            
+//            g.drawImage(coin, 0, 0, 100, 80, null);
         
+            
 
             // Creating the background of the game
-            g.drawImage(Background, 0, 0, null);
+            g.drawImage(Background, 0, 0, WIDTH, HEIGHT, null);
             
             // drawing the player of the game
             g.setColor(Color.DARK_GRAY);
             g.fillOval (player.x, player.y, player.width, player.height);
             
-            //drawing the coins
-            g.setColor (Color.CYAN);
+            //drawing the coins from the array list
+            
             for(Rectangle coin : coins ){
-                g.drawImage(this.coin, coin.x, coin.y, coin.width, coin.height,null);
+                g.drawImage(this.coin, coin.x, coin.y, 100, 80 ,null);
             }
 
-            // drawing the bombs of the game
-            g.setColor(Color.GRAY);
-            for(Rectangle bomb : bombs){
-                g.drawImage(this.bomb, bomb.x, bomb.y, bomb.width, bomb.height, null);
+            // drawing the bombs of the game from the array list
+             for(Rectangle bomb : bombs){
+                g.drawImage(this.bomb, bomb.x, bomb.y, 100, 80, null);
             }
             
         //draw the font on the screen
@@ -205,9 +210,11 @@ public class ICS3UI extends JComponent {
     // This is run before the game loop begins!
     public void  preSetup(){
        // Any of your pre setup before the loop starts should go here
-       
+        
+//       Background = loadImage("images/wall.png");
+//       bomb = loadImage("images/avoid.png");
+//       coin = loadImage("images/money.png");
  
-       
     }
  
     // The main game loop
@@ -372,5 +379,24 @@ public class ICS3UI extends JComponent {
         // starts the game loop
         game.run();
     }
+        
+    // A method used to load in an image
+    // The filname is used to pass in the EXACT full name of the image from the src folder
+    // i.e.  images/picture.png
+    public BufferedImage loadImage(String filename) {
+        
+        BufferedImage img = null;
+
+        try {
+            // use ImageIO to load in an Image
+            // ClassLoader is used to go into a folder in the directory and grab the file
+            img = ImageIO.read(ClassLoader.getSystemResourceAsStream(filename));
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+
+        return img;
+    }
 }
+  
 
