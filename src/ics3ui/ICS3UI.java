@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
 
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
@@ -24,7 +25,7 @@ import java.io.IOException;
  * @author ${user}
  */
 public class ICS3UI extends JComponent {
- 
+ //https://github.com/venomiousrex/finalproject-venomiousrex/blob/master/src/game/Lode.java
     // Height and Width of our game
     static final int WIDTH = 400;
     static final int HEIGHT = 600;
@@ -44,7 +45,7 @@ public class ICS3UI extends JComponent {
     int gravity = 0;
     
     //creating the player
-    Rectangle player = new Rectangle (175, 550, 30, 30);
+    Rectangle player = new Rectangle (175, 550, 25, 25);
     
     
     // the frame (For pixels)
@@ -56,38 +57,22 @@ public class ICS3UI extends JComponent {
     // creating the bombs
     ArrayList<Rectangle> bombs = new ArrayList<>();
     //Title of the window
-    String title = "My Game";
+    String title = "DangerCoin";
  
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
     long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
      
-    
-    // importing the  images 
-    BufferedImage bomb = loadImage("images/avoid.png");
-    BufferedImage Background = loadImage("images/wall.png");
-    BufferedImage coin =loadImage("images/money.png");
-    
-    
-//    //create a method for loading the images
-//    public BufferedImage loadImage(String filename) {
-//        BufferedImage img = null;
-//        try {
-//            img = ImageIO.read(new File(filename));
-//        } catch (Exception e) {
-//            System.out.println("Error loading " + filename);
-//        }
-//        return img;
-//    }
-
-   
- 
-    // YOUR GAME VARIABLES WOULD GO HERE
-    
+     // importing the  images 
+    BufferedImage bomb = loadImage("avoid.png");
+    BufferedImage Background = loadImage("wall.png");
+    BufferedImage coin =loadImage("money.png");
+    BufferedImage end = loadImage("end.png");
        
     
- 
+    
+    // YOUR GAME VARIABLES WOULD GO HERE
     // GAME VARIABLES END HERE   
  
     
@@ -96,26 +81,26 @@ public class ICS3UI extends JComponent {
     public ICS3UI(){
         //creating an array list for the bombs position - player needs to avoid
         bombs = new ArrayList<>();
-        bombs.add(new Rectangle(75, 50, 40, 20));
-        bombs.add(new Rectangle(0, 150, 40, 20));
-        bombs.add(new Rectangle(150, 440, 40, 20));
-        bombs.add(new Rectangle(250, 0, 40, 20));
-        bombs.add(new Rectangle(150, 400, 40, 20));
-        bombs.add(new Rectangle(280, 480, 40, 20));
-        bombs.add(new Rectangle(350, 250, 40, 20));
-        bombs.add(new Rectangle(275, 75, 40, 20));
-        bombs.add(new Rectangle(15, 345, 40, 20));
-        bombs.add(new Rectangle(350, 300, 40, 20));
-        bombs.add(new Rectangle(200, 200, 40, 20));
-        bombs.add(new Rectangle(500, 375, 40, 20));
-        bombs.add(new Rectangle(50, 500, 40, 20));
-        bombs.add(new Rectangle(120, 550, 40, 20));
-        bombs.add(new Rectangle(260, 350, 40, 20));
-        bombs.add(new Rectangle(15, 260, 40, 20));
-        bombs.add(new Rectangle(45, 25, 40, 20));
-        bombs.add(new Rectangle(100, 175, 40, 20));
-        bombs.add(new Rectangle(160, 90, 40, 20));
-        bombs.add(new Rectangle(130, 275, 40, 20));
+        bombs.add(new Rectangle(75, 50, 25, 20));
+        bombs.add(new Rectangle(0, 150, 25, 20));
+        bombs.add(new Rectangle(150, 440, 25, 20));
+        bombs.add(new Rectangle(250, 0, 25, 20));
+        bombs.add(new Rectangle(150, 400, 25, 20));
+        bombs.add(new Rectangle(280, 480, 25, 20));
+        bombs.add(new Rectangle(350, 250, 25, 20));
+        bombs.add(new Rectangle(275, 75, 25, 20));
+        bombs.add(new Rectangle(15, 345, 25, 20));
+        bombs.add(new Rectangle(350, 300, 25, 20));
+        bombs.add(new Rectangle(200, 200, 25, 20));
+        bombs.add(new Rectangle(500, 375, 25, 20));
+        bombs.add(new Rectangle(50, 500, 25, 20));
+        bombs.add(new Rectangle(120, 550, 25, 20));
+        bombs.add(new Rectangle(260, 350, 25, 20));
+        bombs.add(new Rectangle(15, 260, 25, 20));
+        bombs.add(new Rectangle(45, 25, 25, 20));
+        bombs.add(new Rectangle(100, 175, 25, 20));
+        bombs.add(new Rectangle(160, 90, 25, 20));
+        bombs.add(new Rectangle(130, 275, 25, 20));
         
         
         // creating an arraylist for the coins position- player needs to get 
@@ -185,22 +170,27 @@ public class ICS3UI extends JComponent {
             g.fillOval (player.x, player.y, player.width, player.height);
             
             //drawing the coins from the array list
+            for (Rectangle coin:coins){
+            g.drawImage(this.coin,coin.x, coin.y, coin.width, coin.height ,null);
             
-            for(Rectangle coin : coins ){
-                g.drawImage(this.coin, coin.x, coin.y, 100, 80 ,null);
-            }
-
+    }
             // drawing the bombs of the game from the array list
-             for(Rectangle bomb : bombs){
-                g.drawImage(this.bomb, bomb.x, bomb.y, 100, 80, null);
+            for(Rectangle bomb: bombs){ 
+            g.drawImage(this.bomb, bomb.x, bomb.y, bomb.width, bomb.height, null);
             }
-            
         //draw the font on the screen
         g.setColor (Color.WHITE);
         g.setFont(scoreFont);
         g.drawString("" + score, WIDTH/2, 50);
-            }
+            
+//        if (done = true){
+    
+    
         
+
+
+
+}
         
         // GAME DRAWING ENDS HERE
     
@@ -239,17 +229,17 @@ public class ICS3UI extends JComponent {
             //moving the player from left to right
                 if (leftPressed) {
                     // the player will move at the spesd of 3 to the left
-                    player.x = player.x - 3;
+                    player.x = player.x - 5;
                 } 
                 if (rightPressed) {
                     // the player will move at the speed of to the right
-                    player.x = player.x + 3;
+                    player.x = player.x + 5;
                 }
               
                     // go through all of rectangles
                     for (Rectangle bomb : bombs) {
                         // making the bombs go down
-                        bomb.y = bomb.y + 2;
+                        bomb.y = bomb.y + 1;
                         if (bomb.y > 600){
                           bomb.y = - 100;
                         }
@@ -257,7 +247,7 @@ public class ICS3UI extends JComponent {
                     // go through all of diamonds
                     for (Rectangle coin : coins){
                         //making the diamonds to go down
-                        coin.y = coin.y + 2;
+                        coin.y = coin.y + 1;
                         if (coin.y > 600){
                             coin.y = - 100;
                             
@@ -277,7 +267,7 @@ public class ICS3UI extends JComponent {
                     for (Rectangle coin : coins ){
                         // when the player will collide with a coin it will add a score
                         if (player.intersects (coin)){
-                            score = score + 1 ;
+                            score = score + 1;
                         }
                     }
             
@@ -383,18 +373,14 @@ public class ICS3UI extends JComponent {
     // A method used to load in an image
     // The filname is used to pass in the EXACT full name of the image from the src folder
     // i.e.  images/picture.png
-    public BufferedImage loadImage(String filename) {
-        
+    public static BufferedImage loadImage(String name){
         BufferedImage img = null;
-
-        try {
-            // use ImageIO to load in an Image
-            // ClassLoader is used to go into a folder in the directory and grab the file
-            img = ImageIO.read(ClassLoader.getSystemResourceAsStream(filename));
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        try{
+            img = ImageIO.read(new File(name));
+        }catch(Exception e){
+            e.printStackTrace();
+            System.exit(0);
         }
-
         return img;
     }
 }
