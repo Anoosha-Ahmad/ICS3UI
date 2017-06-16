@@ -65,10 +65,11 @@ public class ICS3UI extends JComponent {
     long desiredTime = (1000) / desiredFPS;
      
      // importing the  images 
-    BufferedImage bomb = loadImage("avoid.png");
+    BufferedImage bomb = loadImage("bomb.png");
     BufferedImage Background = loadImage("wall.png");
     BufferedImage coin =loadImage("money.png");
     BufferedImage end = loadImage("end.png");
+    
        
     
     
@@ -178,6 +179,9 @@ public class ICS3UI extends JComponent {
             for(Rectangle bomb: bombs){ 
             g.drawImage(this.bomb, bomb.x, bomb.y, bomb.width, bomb.height, null);
             }
+           
+//            g.drawImage(end, 175, 550, 50, 40, null);
+            
         //draw the font on the screen
         g.setColor (Color.WHITE);
         g.setFont(scoreFont);
@@ -258,8 +262,10 @@ public class ICS3UI extends JComponent {
                     for (Rectangle bomb : bombs){
                          // when the player encounters (collides) with a bomb
                         if(player.intersects(bomb)){
+                            // when player hits bomb 
                             // if yes the player is hit
                             done = true;
+                            
                             
                         }
                     }                 
